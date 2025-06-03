@@ -39,9 +39,10 @@ npm run dev
 
 ## 环境变量配置
 
-在项目根目录创建 .env 文件，配置以下环境变量：
+在项目根目录创建 .env 文件，配置以下环境变量
 注意这个项目是在本地执行，在浏览器使用 API Key 直接拉取 API 执行 ，应用部署到公网上会泄漏 API Key.
-如果你使用
+大模型除了 deepseek、使用 kimi、豆包、openAI 都可以
+语音模型因为豆包提供的角色音色丰富，所以采用豆包 tts ,相关文档和 API 参考 https://www.coze.cn/open/docs/developer_guides/tts_api
 
 ```
 #正方API网址
