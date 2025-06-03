@@ -25,19 +25,19 @@ export const createDebateMessage = async (
 ): Promise<string> => {
   try {
     const apiUrl = isPositiveSide
-      ? import.meta.env.VITE_FEMALE_API_URL
-      : import.meta.env.VITE_MALE_API_URL;
+      ? import.meta.env.VITE_POSITIVE_API_URL
+      : import.meta.env.VITE_NEGATIVE_API_URL;
     const apiKey = isPositiveSide
-      ? import.meta.env.VITE_FEMALE_API_KEY
-      : import.meta.env.VITE_MALE_API_KEY;
+      ? import.meta.env.VITE_POSITIVE_API_KEY
+      : import.meta.env.VITE_NEGATIVE_API_KEY;
 
     if (!apiUrl || !apiKey) {
       throw new Error(`API配置缺失: ${isPositiveSide ? '正方' : '反方'}`);
     }
 
     const model = isPositiveSide
-      ? import.meta.env.VITE_FEMALE_MODEL || 'moonshot-v1-8k'
-      : import.meta.env.VITE_MALE_MODEL || 'moonshot-v1-8k';
+      ? import.meta.env.VITE_POSITIVE_MODEL || 'deepseek-chat'
+      : import.meta.env.VITE_NEGATIVE_MODEL || 'deepseek-chat';
 
     const response = await axios.post<ChatCompletionResponse>(
       `${apiUrl}/chat/completions`,

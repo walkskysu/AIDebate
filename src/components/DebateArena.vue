@@ -34,6 +34,15 @@ const NEGATIVE_VOICE_ID = import.meta.env.VITE_NEGATIVE_VOICE_ID;
 const WS_URL = `${import.meta.env.VITE_WS_URL}?authorization=Bearer%20${ACCESS_TOKEN}`;
 const SAMPLE_RATE = 48000;
 
+// 新增：从环境变量读取提示词模板
+const POSITIVE_PROMPT_TEMPLATE = import.meta.env.VITE_POSITIVE_PROMPT || '你是持正方观点的人，正在与持反方观点的人抬杠讨论关于"{topic}"的话题。请用略带情绪化、坚定的口语风格回应，表达你的观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。请针对反方的观点进行反驳。';
+const NEGATIVE_PROMPT_TEMPLATE = import.meta.env.VITE_NEGATIVE_PROMPT || '你是持反方观点的人，正在与持正方观点的人抬杠讨论关于"{topic}"的话题。请用略带挑衅、坚定的口语风格回应，表达你的反对观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。请针对正方的观点进行反驳。';
+
+// 新增：生成提示词的函数
+function generatePrompt(template: string, topic: string): string {
+  return template.replace('{topic}', topic);
+}
+
 // 初始化语音服务
 const speechService = new SpeechService({
   wsUrl: WS_URL,
@@ -57,8 +66,8 @@ async function preloadNextResponse(side: 'positive' | 'negative') {
       {
         role: 'system' as const,
         content: side === 'positive' 
-          ? `你是持正方观点的人，正在与持反方观点的人抬杠讨论关于"${topic.value}"的话题。请用略带情绪化、坚定的口语风格回应，表达你的观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。请针对反方的观点进行反驳。`
-          : `你是持反方观点的人，正在与持正方观点的人抬杠讨论关于"${topic.value}"的话题。请用略带挑衅、坚定的口语风格回应，表达你的反对观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。请针对正方的观点进行反驳。`
+          ? generatePrompt(POSITIVE_PROMPT_TEMPLATE, topic.value)
+          : generatePrompt(NEGATIVE_PROMPT_TEMPLATE, topic.value)
       },
       ...messages.map(msg => ({
         role: msg.role,
@@ -221,7 +230,7 @@ const startDebate = async () => {
   // 添加系统消息
   const systemMessage: Message = {
     role: 'system',
-    content: `你是持正方观点的人，正在与持反方观点的人抬杠讨论关于"${topic.value}"的话题。请用略带情绪化、坚定的口语风格回应，表达你的观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。`,
+    content: generatePrompt(POSITIVE_PROMPT_TEMPLATE, topic.value),
     side: 'positive'
   };
   
@@ -272,7 +281,7 @@ const negativeResponse = async () => {
     const historyMessages = [
       {
         role: 'system' as const,
-        content: `你是持反方观点的人，正在与持正方观点的人抬杠讨论关于"${topic.value}"的话题。请用略带挑衅、坚定的口语风格回应，表达你的反对观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。请针对正方的观点进行反驳。`
+        content: generatePrompt(NEGATIVE_PROMPT_TEMPLATE, topic.value)
       },
       ...messages.map(msg => ({
         role: msg.role,
@@ -334,7 +343,7 @@ const positiveResponse = async () => {
     const historyMessages = [
       {
         role: 'system' as const,
-        content: `你是持正方观点的人，正在与持反方观点的人抬杠讨论关于"${topic.value}"的话题。请用略带情绪化、坚定的口语风格回应，表达你的观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。请针对反方的观点进行反驳。`
+        content: generatePrompt(POSITIVE_PROMPT_TEMPLATE, topic.value)
       },
       ...messages.map(msg => ({
         role: msg.role,

@@ -16,7 +16,7 @@ const emit = defineEmits(['close']);
 <template>
   <div v-if="show" class="modal-overlay">
     <div class="modal-content">
-      <h2>battle 结束!!</h2>
+      <h2>Battle 结束!!</h2>
       <p>经过 {{ maxRounds }}  回合精彩发言，你喜欢谁的观点？</p>
       <button @click="$emit('close')" class="close-button">关闭</button>
     </div>

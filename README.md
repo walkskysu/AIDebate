@@ -40,27 +40,42 @@ npm run dev
 ## 环境变量配置
 
 在项目根目录创建 .env 文件，配置以下环境变量：
-注意这个项目是在本地执行，在浏览器使用 API Key 直接拉取 API 执行 ，应用部署到公网上会泄漏 API Key，
+注意这个项目是在本地执行，在浏览器使用 API Key 直接拉取 API 执行 ，应用部署到公网上会泄漏 API Key.
+如果你使用
 
 ```
-# API配置
-VITE_FEMALE_API_URL=<正方API URL>
-VITE_FEMALE_API_KEY=<正方API Key>
-VITE_FEMALE_MODEL=<正方使用的模型>
+#正方API网址
+VITE_POSITIVE_API_URL=https://api.deepseek.com
+#正方API key
+VITE_POSITIVE_API_KEY=your_api_key
+#正方大模型
+VITE_POSITIVE_MODEL=deepseek-chat
+#反方API网址
+VITE_NEGATIVE_API_URL=https://api.deepseek.com
+#反方API key
+VITE_NEGATIVE_API_KEY=your_api_key
+#反方大模型
+VITE_NEGATIVE_MODEL=deepseek-chat
 
-VITE_MALE_API_URL=<反方API URL>
-VITE_MALE_API_KEY=<反方API Key>
-VITE_MALE_MODEL=<反方使用的模型>
+#最大辩论轮数，默认为20
+VITE_MAX_DEBATE_ROUNDS=20
 
-# 辩论配置
-VITE_MAX_ROUNDS=<最大辩论轮数，默认为5>
+#语音tts网址
+VITE_WS_URL=wss://ws.coze.cn/v1/audio/speech
+#语音tts API key
+VITE_ACCESS_TOKEN=tts_api_key
+#正方音色Id
+VITE_POSITIVE_VOICE_ID=7426720361733062665
+#反方音色Id
+VITE_NEGATIVE_VOICE_ID=7468512265151758363
+#是否启用语音
+VITE_ENABLE_TEXT_TO_SPEECH=true
 
-# 语音合成配置
-VITE_ACCESS_TOKEN=<语音合成服务的访问令牌>
-VITE_POSITIVE_VOICE_ID=<正方语音ID>
-VITE_NEGATIVE_VOICE_ID=<反方语音ID>
-VITE_WS_URL=<语音合成WebSocket URL>
-VITE_ENABLE_TEXT_TO_SPEECH=true  # 是否启用文本到语音转换
+# 正方提示词配置
+VITE_POSITIVE_PROMPT=你是持正方观点的人，正在与持反方观点的人抬杠讨论关于"{topic}"的话题。请用略带情绪化、坚定的口语风格回应，表达你的观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。请针对反方的观点进行反驳。
+# 反正提示词配置
+VITE_NEGATIVE_PROMPT=你是持反方观点的人，正在与持正方观点的人抬杠讨论关于"{topic}"的话题。请用略带挑衅、坚定的口语风格回应，表达你的反对观点。回复要简短有力，像抬杠一样，每次回复不要超过3句话。请针对正方的观点进行反驳。
+
 ```
 
 ## 使用指南
@@ -96,7 +111,3 @@ VITE_ENABLE_TEXT_TO_SPEECH=true  # 是否启用文本到语音转换
 ## 贡献
 
 欢迎提交问题和改进建议！ walksky@gmail.com
-
-```
-
-```
