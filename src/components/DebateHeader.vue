@@ -65,7 +65,7 @@ const updateTopic = (e: Event) => {
               class="chat-button start-button"
               :disabled="isLoading"
             >
-              开始聊天
+              开始Battle
             </button>
             <button 
               v-else 
